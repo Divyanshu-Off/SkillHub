@@ -10,26 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-# pyrefly: ignore [missing-import]
 from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = config("SECRET_KEY", default="django-insecure-mx3yfe+4cx5585^mn7!5#2(gur$j6*p)egt$#s^qy8c0an1s6k")
+DEBUG = config("DEBUG", default=True, cast=bool)
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1").split(",")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-mx3yfe+4cx5585^mn7!5#2(gur$j6*p)egt$#s^qy8c0an1s6k"
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,11 +41,11 @@ INSTALLED_APPS = [
     "django_filters",
 
     # Local apps
-    "apps.users",
-    "apps.projects",
-    "apps.paths",
-    "apps.progress",
-    "apps.api",
+    "users",
+    "projects",
+    "paths",
+    "progress",
+    "api",
 ]
 
 MIDDLEWARE = [
@@ -63,7 +58,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
-    "django.contrib.staticfiles.middleware.StaticFilesMiddleware",
 ]
 
 CORS_ALLOWED_ORIGINS = [
