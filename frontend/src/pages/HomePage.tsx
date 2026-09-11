@@ -30,7 +30,7 @@ export const HomePage: React.FC = () => {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <a
-            href="https://github.com"
+            href="https://github.com/Divyanshu-Off/SkillHub"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-medium text-sm transition"

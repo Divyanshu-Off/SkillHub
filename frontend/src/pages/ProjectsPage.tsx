@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { fetchProjects, createProject } from '../services/projectService';
+import { useAuth } from '../context/AuthContext';
 import type { CreateProjectPayload, Project } from '../types/project';
 import {
   FolderGit2,
@@ -12,10 +14,13 @@ import {
   Clock,
   User,
   X,
+  Lock,
 } from 'lucide-react';
 
 export const ProjectsPage: React.FC = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -56,6 +61,14 @@ export const ProjectsPage: React.FC = () => {
     },
   });
 
+  const handleOpenCreateModal = () => {
+    if (!user) {
+      navigate('/signin', { state: { from: { pathname: '/projects' } } });
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title.trim()) {
@@ -79,11 +92,11 @@ export const ProjectsPage: React.FC = () => {
           </p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium shadow-md shadow-indigo-600/30 transition-all active:scale-95 self-start sm:self-auto"
+          onClick={handleOpenCreateModal}
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium shadow-md shadow-indigo-600/30 transition-all active:scale-95 self-start sm:self-auto cursor-pointer"
         >
-          <Plus className="w-4 h-4" />
-          Add Project
+          {user ? <Plus className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+          {user ? 'Add Project' : 'Sign in to Add Project'}
         </button>
       </div>
 
@@ -176,7 +189,7 @@ export const ProjectsPage: React.FC = () => {
               <h2 className="text-xl font-bold text-white">Create New Project</h2>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition"
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -247,14 +260,14 @@ export const ProjectsPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition"
+                  className="px-4 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={createMutation.isPending}
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium shadow-md shadow-indigo-600/30 transition"
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-sm font-medium shadow-md shadow-indigo-600/30 transition cursor-pointer"
                 >
                   {createMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                   Save Project
