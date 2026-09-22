@@ -14,9 +14,11 @@ export const SignOutPage: React.FC = () => {
   }, [logout, navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center py-24 gap-3 text-slate-400">
-      <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
-      <p className="text-sm">Signing you out of SkillHub...</p>
+    <div className="flex flex-col items-center justify-center py-24 gap-3 text-muted-foreground font-mono text-xs">
+      <Loader2 className="w-6 h-6 animate-spin text-foreground" />
+      <p className="uppercase tracking-wider">Signing you out of SkillHub...</p>
     </div>
   );
 };
+
+export default SignOutPage;
